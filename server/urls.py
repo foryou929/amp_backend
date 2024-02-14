@@ -1,8 +1,8 @@
-from django.urls import include, path
+from django.urls import path
+from advertising_matching_platform.views.user import RegisterView, LoginView, LogoutView
 
 urlpatterns = [
-    # Include the router URLs for users
-    path('api/', include('routers.authRouter')),
-
-    # Add more URL includes for other router files
+    path('api/auth/register', RegisterView.as_view(), name='register'),
+    path('api/auth/login', LoginView.as_view(), name='login'),
+    path('api/auth/logout', LogoutView.as_view(), name='logout'),
 ]
