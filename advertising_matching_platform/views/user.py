@@ -30,7 +30,7 @@ class LoginView(views.APIView):
         if user:
             login(request, user)
             return Response({"message": "Login successful"})
-        return Response({"message": "Invalid credentials"}, status=400)
+        return Response({"error": "Invalid credentials"}, status=400)
 
 
 class LogoutView(views.APIView):
