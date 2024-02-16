@@ -28,8 +28,8 @@ class LoginView(views.APIView):
             if user:
                 refresh = RefreshToken.for_user(user)
                 token = {
-                    'refresh': str(refresh),
-                    'access': str(refresh.access_token),
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
                 }
                 return Response({"message": "Login successful", "token": token})
             return Response({"error": "Invalid credentials"}, status=400)
@@ -41,3 +41,8 @@ class LogoutView(views.APIView):
     def post(self, request):
         logout(request)
         return Response({"message": "Logout successful"})
+
+
+class ProfileView(views.APIView):
+    def post(self, request):
+        return Response({"message": "Success"})
