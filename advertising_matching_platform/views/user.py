@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import authenticate, login, logout
 from advertising_matching_platform.serializers.user import UserSerializer
-from django.middleware.csrf import get_token
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class RegisterView(views.APIView):
@@ -20,17 +20,21 @@ class RegisterView(views.APIView):
 class LoginView(views.APIView):
     permission_classes = (AllowAny,)
 
-    def get(self, request):
-        return Response({"csrf_token": get_token(request)})
-
     def post(self, request):
-        username = request.data.get("username")
-        password = request.data.get("password")
-        user = authenticate(request, username=username, password=password)
-        if user:
-            login(request, user)
-            return Response({"message": "Login successful"})
-        return Response({"error": "Invalid credentials"}, status=400)
+        try:
+            username = request.data.get("username")
+            password = request.data.get("password")
+            user = authenticate(request, username=username, password=password)
+            if user:
+                refresh = RefreshToken.for_user(user)
+                token = {
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                }
+                return Response({"message": "Login successful", "token": token})
+            return Response({"error": "Invalid credentials"}, status=400)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
 
 
 class LogoutView(views.APIView):
