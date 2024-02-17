@@ -1,8 +1,8 @@
 from rest_framework import views
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
-from django.contrib.auth import authenticate, login, logout
-from advertising_matching_platform.serializers.user import UserSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from django.contrib.auth import authenticate, logout
+from auth.serializer import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
@@ -44,5 +44,8 @@ class LogoutView(views.APIView):
 
 
 class ProfileView(views.APIView):
+    permission_classes = (IsAuthenticated,)
+
     def post(self, request):
+        print(request.data)
         return Response({"message": "Success"})
