@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     GENDER_CHOICES = [
         (0, "Undefined"),
         (1, "Male"),
