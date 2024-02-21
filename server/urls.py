@@ -1,4 +1,7 @@
 from django.urls import path
+
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 from auth.views import (
     RegisterView,
     LoginView,
@@ -7,8 +10,7 @@ from auth.views import (
 )
 
 from user.views import ProfileView
-
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from space.views import SpaceView
 
 urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -18,4 +20,5 @@ urlpatterns = [
     path("api/auth/loginWithToken", LoginWithTokenView.as_view(), name="login"),
     path("api/auth/logout", LogoutView.as_view(), name="logout"),
     path("api/user/profile", ProfileView.as_view(), name="profile"),
+    path("api/space", SpaceView.as_view(), name="profile"),
 ]
