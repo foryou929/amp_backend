@@ -42,7 +42,8 @@ class LoginWithTokenView(views.APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        return Response(serializers.serialize("json", [request.user]))
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
 
 
 class LogoutView(views.APIView):
