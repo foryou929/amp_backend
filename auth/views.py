@@ -1,9 +1,10 @@
+from django.contrib.auth import authenticate, logout
+from django.core import serializers
 from rest_framework import views
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
-from django.contrib.auth import authenticate, logout
-from auth.serializer import UserSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from auth.serializer import UserSerializer
 
 
 class RegisterView(views.APIView):
@@ -35,6 +36,13 @@ class LoginView(views.APIView):
             return Response({"error": "Invalid credentials"}, status=400)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
+
+
+class LoginWithTokenView(views.APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        return Response(serializers.serialize("json", [request.user]))
 
 
 class LogoutView(views.APIView):
