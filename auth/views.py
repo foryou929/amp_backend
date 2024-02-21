@@ -1,9 +1,10 @@
+from django.contrib.auth import authenticate, logout
+from django.core import serializers
 from rest_framework import views
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
-from django.contrib.auth import authenticate, login, logout
-from advertising_matching_platform.serializers.user import UserSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from auth.serializer import UserSerializer
 
 
 class RegisterView(views.APIView):
@@ -37,12 +38,15 @@ class LoginView(views.APIView):
             return Response({"error": str(e)}, status=500)
 
 
+class LoginWithTokenView(views.APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+
+
 class LogoutView(views.APIView):
     def post(self, request):
         logout(request)
         return Response({"message": "Logout successful"})
-
-
-class ProfileView(views.APIView):
-    def post(self, request):
-        return Response({"message": "Success"})
