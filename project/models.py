@@ -19,5 +19,22 @@ class List(models.Model):
     space_type = models.IntegerField(default=0)
     year_designation = models.IntegerField(default=0)
 
+    PROGRESS_CHOICES = [
+        (0, "Undefined"),
+        (1, "提案"),
+        (2, "選定"),
+        (3, "承諾"),
+        (4, "仮払い"),
+        (5, "広告物発送"),
+        (6, "広告物受け取り"),
+        (7, "開始報告"),
+        (8, "経過報告"),
+        (9, "終了報告"),
+        (10, "支払い"),
+        (11, "レビュー"),
+    ]
+
+    progress = models.PositiveSmallIntegerField(choices=PROGRESS_CHOICES, default=1)
+
     def __str__(self):
         return self.name
