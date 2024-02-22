@@ -1,12 +1,10 @@
-from django.views import View
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.serializers import ListSerializer
 from rest_framework.permissions import IsAuthenticated
 from project.models import List
-from project.serializer import ListSerializer
-from rest_framework.response import Response
 
 
-class ClientProjectView(CreateAPIView):
+class ProjectView(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
     serializer_class = ListSerializer
@@ -16,18 +14,24 @@ class ClientProjectView(CreateAPIView):
         request.data["user"] = request.user.id
         return super().create(request, *args, **kwargs)
 
-    def get(self, request):
-        queryset = List.objects.filter(user_id=request.user.id)
-        serializer = ListSerializer(queryset, many=True)
-        return Response(serializer)
 
-
-class UserProjectView(View):
+class ClientProjectView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
     serializer_class = ListSerializer
 
-    def get(self, request):
-        queryset = List.objects.filter(user_id=request.user.id)
-        serializer = ListSerializer(queryset, many=True)
-        return Response(serializer)
+    def get_queryset(self):
+        queryset = self.queryset
+        queryset = queryset.filter(user_id=self.request.user.id)
+        return queryset
+
+
+class UserProjectView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = List.objects.all()
+    serializer_class = ListSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        queryset = queryset.filter(user_id=self.request.user.id)
+        return queryset

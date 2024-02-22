@@ -1,7 +1,7 @@
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.serializers import ListSerializer
 from space.models import List
-from space.serializer import ListSerializer
 
 
 # Create your views here.
