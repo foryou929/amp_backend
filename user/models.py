@@ -61,3 +61,6 @@ class Profile(models.Model):
     available_space = models.PositiveIntegerField(default=0)
     follower_count = models.PositiveIntegerField(default=0)
     usage_frequency = models.PositiveIntegerField(default=0)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
