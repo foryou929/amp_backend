@@ -1,14 +1,14 @@
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from user.models import Profile
-from user.serializer import ProfileSerializer
+from rest_framework.serializers import ListSerializer
 
 
 # Create your views here.
 class ProfileView(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+    serializer_class = ListSerializer
 
     def create(self, request, *args, **kwargs):
         # Add foreign key values to request data
