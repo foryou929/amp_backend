@@ -1,7 +1,7 @@
 from rest_framework.generics import CreateAPIView, ListAPIView
-from rest_framework.serializers import ListSerializer
 from rest_framework.permissions import IsAuthenticated
 from project.models import List
+from project.serializer import ListSerializer
 
 
 class ProjectView(CreateAPIView):
