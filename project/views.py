@@ -1,4 +1,4 @@
-from rest_framework.generics import ListCreateAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from project.models import List
 from project.serializer import ListSerializer
@@ -21,17 +21,12 @@ class ClientProjectView(ListAPIView):
     serializer_class = ListSerializer
 
     def get_queryset(self):
-        queryset = self.queryset
-        queryset = queryset.filter(user_id=self.request.user.id)
+        queryset = List.objects.filter(user_id=self.request.user.id)
         return queryset
 
 
-class UserProjectView(ListAPIView):
+class UserProjectView(RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
     serializer_class = ListSerializer
-
-    def get_queryset(self):
-        queryset = self.queryset
-        queryset = queryset.filter(user_id=self.request.user.id)
-        return queryset
+    lookup_field = "id"
