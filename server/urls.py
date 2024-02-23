@@ -24,5 +24,5 @@ urlpatterns = [
     path("api/space", SpaceView.as_view(), name="space"),
     path("api/project", ProjectView.as_view(), name="project"),
     path("api/client/project", ClientProjectView.as_view(), name="client_project"),
-    path("api/user/project", UserProjectView.as_view(), name="user_project"),
+    path("api/user/project/<int:id>", UserProjectView.as_view(), name="user_project"),
 ]
