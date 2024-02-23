@@ -21,7 +21,11 @@ INSTALLED_APPS = [
     "user",
     "space",
     "project",
-    "apply"
+    "message",
+    "payment",
+    "advert",
+    "review",
+    "file"
 ]
 
 MIDDLEWARE = [
