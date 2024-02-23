@@ -4,15 +4,22 @@ from project.models import List
 from project.serializer import ListSerializer
 
 
-class ProjectView(ListCreateAPIView):
+class ProjectListView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
     serializer_class = ListSerializer
 
     def create(self, request, *args, **kwargs):
         # Add foreign key values to request data
-        request.data["user"] = request.user.id
+        request.data["creator"] = request.user.id
         return super().create(request, *args, **kwargs)
+
+
+class ProjectView(RetrieveAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = List.objects.all()
+    serializer_class = ListSerializer
+    lookup_field = "id"
 
 
 class ClientProjectView(ListAPIView):
@@ -20,13 +27,8 @@ class ClientProjectView(ListAPIView):
     queryset = List.objects.all()
     serializer_class = ListSerializer
 
-    def get_queryset(self):
-        queryset = List.objects.filter(user_id=self.request.user.id)
-        return queryset
 
-
-class UserProjectView(RetrieveAPIView):
+class UserProjectView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
     serializer_class = ListSerializer
-    lookup_field = "id"
