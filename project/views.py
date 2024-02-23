@@ -1,10 +1,10 @@
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from project.models import List
 from project.serializer import ListSerializer
 
 
-class ProjectView(CreateAPIView):
+class ProjectView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
     serializer_class = ListSerializer
