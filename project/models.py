@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 
 
 class List(models.Model):
-    user = models.ForeignKey(
-        User, related_name="project_lists", on_delete=models.CASCADE
+    creator = models.ForeignKey(
+        User, related_name="project_creator", on_delete=models.CASCADE
     )
     area = models.IntegerField(default=0)
     content_size = models.CharField(max_length=255)
