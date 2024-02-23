@@ -11,7 +11,12 @@ from auth.views import (
 
 from user.views import ProfileView
 from space.views import SpaceView
-from project.views import ProjectView, ClientProjectView, UserProjectView
+from project.views import (
+    ProjectListView,
+    ProjectView,
+    ClientProjectView,
+    UserProjectView,
+)
 
 urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -22,7 +27,8 @@ urlpatterns = [
     path("api/auth/logout", LogoutView.as_view(), name="logout"),
     path("api/user/profile", ProfileView.as_view(), name="profile"),
     path("api/space", SpaceView.as_view(), name="space"),
-    path("api/project", ProjectView.as_view(), name="project"),
+    path("api/project", ProjectListView.as_view(), name="project"),
+    path("api/project/<int:id>", ProjectView.as_view(), name="project"),
     path("api/client/project", ClientProjectView.as_view(), name="client_project"),
     path("api/user/project", UserProjectView.as_view(), name="user_project"),
 ]

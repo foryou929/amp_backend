@@ -6,7 +6,9 @@ from django.contrib.auth.models import User
 
 
 class List(models.Model):
-    user = models.ForeignKey(User, related_name="space_lists", on_delete=models.CASCADE)
+    creator = models.ForeignKey(
+        User, related_name="space_creator", on_delete=models.CASCADE
+    )
     title = models.CharField(max_length=255)
     points = models.IntegerField(default=0)
     type = models.IntegerField(default=0)
