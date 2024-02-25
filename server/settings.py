@@ -25,7 +25,8 @@ INSTALLED_APPS = [
     "payment",
     "advert",
     "review",
-    "file"
+    "file",
+    "section"
 ]
 
 MIDDLEWARE = [

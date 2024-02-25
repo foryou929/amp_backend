@@ -16,6 +16,8 @@ class List(models.Model):
     project = models.ForeignKey(
         Project, related_name="message_project", on_delete=models.CASCADE
     )
+    type = models.IntegerField()
+    status = models.IntegerField()
     content = models.TextField()
 
     created_at = models.DateTimeField(auto_now_add=True)
