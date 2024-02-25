@@ -17,7 +17,7 @@ from project.views import (
     ClientProjectView,
     UserProjectView,
 )
-from section.views import ClientView as ClientSectionView, UserView as UserSectionView
+from section.views import ClientSectionView, UserSectionView
 from message.views import ClientMessageView, UserMessageView
 
 urlpatterns = [
