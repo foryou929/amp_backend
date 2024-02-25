@@ -32,6 +32,6 @@ urlpatterns = [
     path("api/project/<int:id>", ProjectView.as_view(), name="project"),
     path("api/client/project", ClientProjectView.as_view(), name="client_project"),
     path("api/user/project", UserProjectView.as_view(), name="user_project"),
-    path("api/client/message/<int:message_project>", ClientMessageView.as_view(), name="client_message"),
-    path("api/user/message/<int:message_project>", UserMessageView.as_view(), name="user_message")
+    path("api/client/message/<int:section>", ClientMessageView.as_view(), name="client_message"),
+    path("api/user/message/<int:section>", UserMessageView.as_view(), name="user_message")
 ]
