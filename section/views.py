@@ -33,3 +33,13 @@ class UserSectionView(RetrieveAPIView, CreateAPIView):
         project_id = self.kwargs.get("project_id")
         request.data["project"] = project_id
         return super().create(request, *args, **kwargs)
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        fiter = {"user": self.request.user.id}
+        obj = queryset.filter(**fiter).first()
+
+        if obj is None:
+            self.raise_not_found()
+
+        return obj
