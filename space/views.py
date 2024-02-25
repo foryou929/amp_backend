@@ -11,6 +11,5 @@ class SpaceView(CreateAPIView):
     serializer_class = ListSerializer
 
     def create(self, request, *args, **kwargs):
-        # Add foreign key values to request data
         request.data["user"] = request.user.id
         return super().create(request, *args, **kwargs)
