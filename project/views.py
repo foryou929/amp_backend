@@ -10,7 +10,6 @@ class ProjectListView(ListCreateAPIView):
     serializer_class = ListSerializer
 
     def create(self, request, *args, **kwargs):
-        # Add foreign key values to request data
         request.data["creator"] = request.user.id
         return super().create(request, *args, **kwargs)
 

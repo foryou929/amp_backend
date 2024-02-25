@@ -8,7 +8,6 @@ class MessageView(CreateAPIView):
     queryset = List.objects.all()
     serializer_class = ListSerializer
     def create(self, request, *args, **kwargs):
-        # Add foreign key values to request data
         return super().create(request, *args, **kwargs)
 
 
