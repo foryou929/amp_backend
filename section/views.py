@@ -1,30 +1,35 @@
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
-from message.models import List
-from message.serializer import ListSerializer
+from section.models import List
+from section.serializer import ListSerializer
 
-class MessageView(CreateAPIView):
+
+class SectionView(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
     serializer_class = ListSerializer
+
     def create(self, request, *args, **kwargs):
-        # Add foreign key values to request data
         return super().create(request, *args, **kwargs)
 
 
-class ClientMessageView(ListAPIView):
+class ClientSectionView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
     serializer_class = ListSerializer
     # def get_queryset(self):
     #     queryset = List.objects.filter()
-    #     return 
+    #     return
 
 
-class UserMessageView(ListAPIView):
+class UserSectionView(RetrieveAPIView, CreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
     serializer_class = ListSerializer
-    # def get_queryset(self):
-    #     section_id = self.kwargs.get('section_id')
-    #     return List.objects.filter(sender_id=self.request.user, section_id=section_id)
+    lookup_field = "project_id"
+
+    def create(self, request, *args, **kwargs):
+        request.data["user"] = request.user.id
+        project_id = self.kwargs.get("project_id")
+        request.data["project"] = project_id
+        return super().create(request, *args, **kwargs)
