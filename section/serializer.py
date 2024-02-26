@@ -1,8 +1,18 @@
 from rest_framework import serializers
 from section.models import List
+from message.serializer import ListSerializer as MessageSerializer
 
 
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
         model = List
         fields = "__all__"
+
+
+class SectionMessageSerializer(serializers.ModelSerializer):
+    messages = MessageSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = List
+        fields = "__all__"
+        depth = 1
