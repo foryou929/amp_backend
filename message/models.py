@@ -7,11 +7,11 @@ from section.models import List as Section
 
 
 class List(models.Model):
-    sender = models.ForeignKey(
-        User, related_name="message_sender", on_delete=models.CASCADE
-    )
     section = models.ForeignKey(
-        Section, related_name="message_section", on_delete=models.CASCADE
+        Section, related_name="messages", on_delete=models.CASCADE
+    )
+    sender = models.ForeignKey(
+        User, related_name="sender", on_delete=models.CASCADE
     )
     type = models.IntegerField()
     status = models.IntegerField(default=0)
