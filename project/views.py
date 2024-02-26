@@ -23,13 +23,12 @@ class ProjectView(RetrieveAPIView):
 
 
 class ProjectScoutView(ListAPIView):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
     serializer_class = ProjectSectionSerializer
 
     def get_queryset(self):
-        queryset = List.objects.filter()
-        return queryset
+        return self.queryset.filter(sections__step=1, sections__messages__type=1)
 
 
 class ClientProjectView(ListAPIView):
