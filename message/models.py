@@ -14,8 +14,8 @@ class List(models.Model):
         Section, related_name="message_section", on_delete=models.CASCADE
     )
     type = models.IntegerField()
-    status = models.IntegerField()
-    content = models.TextField()
+    status = models.IntegerField(default=0)
+    content = models.TextField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
