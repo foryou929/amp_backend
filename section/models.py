@@ -10,6 +10,7 @@ class List(models.Model):
     user = models.ForeignKey(
         User, related_name="section_user", on_delete=models.CASCADE
     )
+    step = models.IntegerField(default=1)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

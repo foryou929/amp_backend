@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from project.models import List
+from message.models import List
 
 
 class ListSerializer(serializers.ModelSerializer):

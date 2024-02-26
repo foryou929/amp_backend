@@ -1,3 +1,4 @@
+from django.http import Http404
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from section.models import List
@@ -33,3 +34,13 @@ class UserSectionView(RetrieveAPIView, CreateAPIView):
         project_id = self.kwargs.get("project_id")
         request.data["project"] = project_id
         return super().create(request, *args, **kwargs)
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        fiter = {"user": self.request.user.id}
+        obj = queryset.filter(**fiter).first()
+    
+        if obj is None:
+            raise Http404
+
+        return obj
