@@ -13,6 +13,7 @@ from user.views import ProfileView
 from space.views import SpaceView
 from project.views import (
     ProjectListView,
+    ProjectScoutView,
     ProjectView,
     ClientProjectView,
     UserProjectView,
@@ -33,6 +34,7 @@ urlpatterns = [
     path("api/space", SpaceView.as_view(), name="space"),
     path("api/project", ProjectListView.as_view(), name="project_kust"),
     path("api/project/<int:id>", ProjectView.as_view(), name="project"),
+    path("api/project/scout", ProjectScoutView.as_view(), name="project_scout"),
     path("api/client/project", ClientProjectView.as_view(), name="client_project"),
     path("api/user/project", UserProjectView.as_view(), name="user_project"),
     path(
