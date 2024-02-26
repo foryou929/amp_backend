@@ -5,11 +5,9 @@ from project.models import List as Project
 
 class List(models.Model):
     project = models.ForeignKey(
-        Project, related_name="section_project", on_delete=models.CASCADE
+        Project, related_name="sections", on_delete=models.CASCADE
     )
-    user = models.ForeignKey(
-        User, related_name="section_user", on_delete=models.CASCADE
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     step = models.IntegerField(default=1)
 
     created_at = models.DateTimeField(auto_now_add=True)
