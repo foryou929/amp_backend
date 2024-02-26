@@ -18,7 +18,7 @@ from project.views import (
     UserProjectView,
 )
 from section.views import ClientSectionView, UserSectionView
-from message.views import ClientMessageView, UserMessageView
+from message.views import MessageView, ClientMessageView, UserMessageView
 
 urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -40,6 +40,7 @@ urlpatterns = [
         UserSectionView.as_view(),
         name="user_section",
     ),
+    path("api/message/<int:section_id>", MessageView.as_view(), name="message"),
     # path("api/client/message/<int:section>", ClientMessageView.as_view(), name="client_message"),
     # path("api/user/message/<int:section>", UserMessageView.as_view(), name="user_message")
 ]
