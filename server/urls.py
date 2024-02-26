@@ -18,7 +18,7 @@ from project.views import (
     ClientProjectView,
     UserProjectView,
 )
-from section.views import ClientSectionView, UserSectionView
+from section.views import SectionView, ClientSectionView, UserSectionView
 from message.views import MessageView, ClientMessageView, UserMessageView
 
 urlpatterns = [
@@ -37,6 +37,12 @@ urlpatterns = [
     path("api/project/scout", ProjectScoutView.as_view(), name="project_scout"),
     path("api/client/project", ClientProjectView.as_view(), name="client_project"),
     path("api/user/project", UserProjectView.as_view(), name="user_project"),
+    path("api/section/<int:id>", SectionView.as_view(), name="section"),
+    path(
+        "api/client/section/<int:id>",
+        ClientSectionView.as_view(),
+        name="client_section"
+    ),
     path(
         "api/user/section/<int:project_id>",
         UserSectionView.as_view(),
