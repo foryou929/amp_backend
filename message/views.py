@@ -3,11 +3,15 @@ from rest_framework.permissions import IsAuthenticated
 from message.models import List
 from message.serializer import ListSerializer
 
+
 class MessageView(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
     serializer_class = ListSerializer
+
     def create(self, request, *args, **kwargs):
+        request.data["sender"] = request.user.id
+        request.data["section"] = self.kwargs.get('section_id')
         return super().create(request, *args, **kwargs)
 
 
@@ -17,7 +21,7 @@ class ClientMessageView(ListAPIView):
     serializer_class = ListSerializer
     # def get_queryset(self):
     #     queryset = List.objects.filter()
-    #     return 
+    #     return
 
 
 class UserMessageView(ListAPIView):
