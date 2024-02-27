@@ -1,43 +1,47 @@
-from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
+from utils.views import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from project.models import List
-from project.serializer import ListSerializer
-from project.serializer import ProjectSectionSerializer
+from project.serializer import Serializer, ReadSerializer
 
 
-class ProjectListView(ListCreateAPIView):
+class ProjectsView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
-    serializer_class = ListSerializer
+    serializer_class = Serializer
+    read_serializer_class = ReadSerializer
 
     def create(self, request, *args, **kwargs):
         request.data["creator"] = request.user.id
         return super().create(request, *args, **kwargs)
 
 
-class ProjectView(RetrieveAPIView):
+class ProjectView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
-    serializer_class = ListSerializer
     lookup_field = "id"
+    serializer_class = Serializer
+    read_serializer_class = ReadSerializer
 
 
-class ProjectScoutView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = List.objects.all()
-    serializer_class = ProjectSectionSerializer
+# class ProjectSectionListView(ListAPIView):
+#     permission_classes = (IsAuthenticated,)
+#     queryset = List.objects.all()
+#     serializer_class = ProjectSectionSerializer
 
-    def get_queryset(self):
-        return self.queryset.filter(sections__step=1, sections__messages__type=1)
-
-
-class ClientProjectView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = List.objects.all()
-    serializer_class = ListSerializer
+#     def get_queryset(self):
+#         return self.queryset.filter(
+#             sections__step__gte=self.kwargs.get("step_from"),
+#             sections__step__lte=self.kwargs.get("step_to"),
+#         )
 
 
-class UserProjectView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = List.objects.all()
-    serializer_class = ListSerializer
+# class ClientProjectView(ListAPIView):
+#     permission_classes = (IsAuthenticated,)
+#     queryset = List.objects.all()
+#     serializer_class = ListSerializer
+
+
+# class UserProjectView(ListAPIView):
+#     permission_classes = (IsAuthenticated,)
+#     queryset = List.objects.all()
+#     serializer_class = ListSerializer

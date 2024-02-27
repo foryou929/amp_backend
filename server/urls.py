@@ -12,14 +12,20 @@ from auth.views import (
 from user.views import ProfileView
 from space.views import SpaceView
 from project.views import (
-    ProjectListView,
-    ProjectScoutView,
+    ProjectsView,
     ProjectView,
-    ClientProjectView,
-    UserProjectView,
+    # ProjectSectionListView,
+    # ClientProjectView,
+    # UserProjectView,
 )
-from section.views import SectionView, ClientSectionView, UserSectionView
-from message.views import MessageView, ClientMessageView, UserMessageView
+from section.views import (
+    SectionListView,
+    SectionView,
+    ProjectSectionView,
+)  # , ClientSectionView, UserSectionView
+from message.views import MessageView  # , ClientMessageView, UserMessageView
+from payment.views import PaymentView
+from advert.views import AdvertView
 
 urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -32,23 +38,27 @@ urlpatterns = [
     path("api/auth/logout", LogoutView.as_view(), name="logout"),
     path("api/user/profile", ProfileView.as_view(), name="profile"),
     path("api/space", SpaceView.as_view(), name="space"),
-    path("api/project", ProjectListView.as_view(), name="project_kust"),
+    path("api/project", ProjectsView.as_view(), name="projects"),
     path("api/project/<int:id>", ProjectView.as_view(), name="project"),
-    path("api/project/scout", ProjectScoutView.as_view(), name="project_scout"),
-    path("api/client/project", ClientProjectView.as_view(), name="client_project"),
-    path("api/user/project", UserProjectView.as_view(), name="user_project"),
+    path(
+        "api/project/<int:project_id>/section",
+        ProjectSectionView.as_view(),
+        name="section",
+    ),
     path("api/section/<int:id>", SectionView.as_view(), name="section"),
     path(
-        "api/client/section/<int:id>",
-        ClientSectionView.as_view(),
-        name="client_section"
+        "api/section/<int:section_id>/message", MessageView.as_view(), name="messages"
     ),
     path(
-        "api/user/section/<int:project_id>",
-        UserSectionView.as_view(),
-        name="user_section",
+        "api/section/<int:section_id>/message/step/<int:step>",
+        MessageView.as_view(),
+        name="message",
     ),
-    path("api/message/<int:section_id>", MessageView.as_view(), name="message"),
-    # path("api/client/message/<int:section>", ClientMessageView.as_view(), name="client_message"),
-    # path("api/user/message/<int:section>", UserMessageView.as_view(), name="user_message")
+    path("api/section/<int:section_id>/payment", PaymentView.as_view(), name="payment"),
+    path("api/section/<int:section_id>/advert", AdvertView.as_view(), name="advert"),
+    path(
+        "api/section/step/<int:step_from>/<int:step_to>",
+        SectionListView.as_view(),
+        name="sections",
+    ),
 ]
