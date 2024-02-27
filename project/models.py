@@ -1,7 +1,4 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
 from django.contrib.auth.models import User
 
 
@@ -20,6 +17,7 @@ class List(models.Model):
     recruitment_period = models.IntegerField(default=0)
     space_type = models.IntegerField(default=0)
     year_designation = models.IntegerField(default=0)
+    status = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
