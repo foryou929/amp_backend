@@ -2,21 +2,13 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
-from django.contrib.auth.models import User
-from project.models import List as Project
+from section.models import List as Section
 
 
 class List(models.Model):
-    payer = models.ForeignKey(
-        User, related_name="payment_payer", on_delete=models.CASCADE
-    )
-    receiver = models.ForeignKey(
-        User, related_name="payment_receiver", on_delete=models.CASCADE
-    )
-    project = models.ForeignKey(
-        Project, related_name="payment_project", on_delete=models.CASCADE
-    )
+    section = models.OneToOneField(Section, on_delete=models.CASCADE, related_name="payment_section")
     point = models.IntegerField()
+    is_paid = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
