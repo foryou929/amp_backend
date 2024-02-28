@@ -6,7 +6,7 @@ from section.models import List as Section
 
 
 class List(models.Model):
-    section = models.OneToOneField(Section, on_delete=models.CASCADE, related_name="payment_section")
+    section = models.OneToOneField(Section, on_delete=models.CASCADE, related_name="section_payment")
     point = models.IntegerField()
     is_paid = models.BooleanField(default=False)
 
