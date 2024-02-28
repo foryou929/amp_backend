@@ -1,20 +1,17 @@
 from django.http import Http404
 from django.db.models import Count, Subquery, OuterRef
-from rest_framework.generics import (
-    ListAPIView,
-    CreateAPIView,
-    RetrieveAPIView,
-    UpdateAPIView,
-)
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from utils.views import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from section.models import List
-from section.serializer import ListSerializer
+from section.serializer import ReadSerializer, Serializer
 
 
-class SectionListView(ListAPIView):
+class SectionListView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
-    serializer_class = ListSerializer
+    serializer_class = Serializer
+    read_serializer_class = ReadSerializer
 
     def get_queryset(self):
         suggest_count_subquery = (
@@ -33,11 +30,12 @@ class SectionListView(ListAPIView):
         return queryset
 
 
-class SectionView(RetrieveAPIView):
+class SectionView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
-    serializer_class = ListSerializer
     lookup_field = "id"
+    serializer_class = Serializer
+    read_serializer_class = ReadSerializer
 
 
 # class ClientSectionView(ListAPIView, UpdateAPIView):
@@ -50,11 +48,10 @@ class SectionView(RetrieveAPIView):
 #     return
 
 
-class ProjectSectionView(RetrieveAPIView, CreateAPIView):
+class SectionProjectView(CreateAPIView, RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
-    serializer_class = ListSerializer
-    lookup_field = "project_id"
+    serializer_class = Serializer
 
     def create(self, request, *args, **kwargs):
         request.data["user"] = request.user.id
