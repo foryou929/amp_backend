@@ -8,10 +8,10 @@ from section.models import List as Section
 
 class List(models.Model):
     section = models.ForeignKey(
-        Section, related_name="messages", on_delete=models.CASCADE
+        Section, on_delete=models.CASCADE, related_name="section_messages"
     )
     sender = models.ForeignKey(
-        User, related_name="sender", on_delete=models.CASCADE
+        User, on_delete=models.CASCADE, related_name="messagfes"
     )
     type = models.IntegerField()
     status = models.IntegerField(default=0)
