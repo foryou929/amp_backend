@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class List(models.Model):
     creator = models.ForeignKey(
-        User, related_name="project_creator", on_delete=models.CASCADE
+        User, on_delete=models.CASCADE, related_name="projects"
     )
     area = models.IntegerField(default=0)
     content_size = models.CharField(max_length=255)
