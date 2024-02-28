@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from project.models import List
-from section.serializer import (
-    SectionMessageSerializer,
-)
+from section.serializer import ReadSerializer as SectionReadSerializer
 from datetime import datetime
 
 
@@ -13,6 +11,7 @@ class Serializer(serializers.ModelSerializer):
 
 
 class ReadSerializer(serializers.ModelSerializer):
+    project_sections = SectionReadSerializer(many=True, read_only=True)
     current = serializers.SerializerMethodField()
 
     class Meta:
@@ -22,11 +21,3 @@ class ReadSerializer(serializers.ModelSerializer):
 
     def get_current(self, obj):
         return datetime.now()
-
-
-class ProjectSectionSerializer(serializers.ModelSerializer):
-    sections = SectionMessageSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = List
-        fields = "__all__"

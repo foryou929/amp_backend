@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 class List(models.Model):
     creator = models.ForeignKey(
-        User, related_name="space_creator", on_delete=models.CASCADE
+        User, on_delete=models.CASCADE, related_name="spaces"
     )
     title = models.CharField(max_length=255)
     points = models.IntegerField(default=0)
