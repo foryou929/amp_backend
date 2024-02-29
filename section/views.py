@@ -1,19 +1,27 @@
 from django.http import Http404
 from django.db.models import Count, Subquery, OuterRef
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import CreateAPIView, RetrieveAPIView
-from utils.views import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
+from utils.views import RetrieveUpdateDestroyAPIView
 from section.models import List
-from section.serializer import ReadSerializer, Serializer
+from section.serializer import Serializer, LinkSerializer, ReadSerializer
 
 
-class SectionListView(ListCreateAPIView):
+class SectionsView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
-    serializer_class = Serializer
-    read_serializer_class = ReadSerializer
+    serializer_class = ReadSerializer
 
     def get_queryset(self):
+        type = self.kwargs.get("type")
+
+        queryset = self.queryset
+
+        if type == "client":
+            queryset = queryset.filter(project__creator=self.request.user.id)
+        if type == "user":
+            queryset = queryset.filter(user=self.request.user.id)
+
         suggest_count_subquery = (
             List.objects.values("project_id")
             .annotate(suggest_count=Count("id"))
@@ -21,11 +29,7 @@ class SectionListView(ListCreateAPIView):
             .values("suggest_count")[:1]
         )
 
-        queryset = List.objects.filter(
-            project__creator=self.request.user.id,
-            step__gte=self.kwargs.get("step_from"),
-            step__lte=self.kwargs.get("step_to"),
-        ).annotate(suggest_count=Subquery(suggest_count_subquery))
+        queryset = queryset.annotate(suggest_count=Subquery(suggest_count_subquery))
 
         return queryset
 
@@ -35,17 +39,7 @@ class SectionView(RetrieveUpdateDestroyAPIView):
     queryset = List.objects.all()
     lookup_field = "id"
     serializer_class = Serializer
-    read_serializer_class = ReadSerializer
-
-
-# class ClientSectionView(ListAPIView, UpdateAPIView):
-#     permission_classes = (IsAuthenticated,)
-#     queryset = List.objects.all()
-#     serializer_class = ListSerializer
-#     lookup_field = "id"
-# def get_queryset(self):
-#     queryset = List.objects.filter()
-#     return
+    read_serializer_class = LinkSerializer
 
 
 class SectionProjectView(CreateAPIView, RetrieveAPIView):
