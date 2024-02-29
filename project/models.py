@@ -1,10 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class List(models.Model):
     creator = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="projects"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="projects"
     )
     area = models.IntegerField(default=0)
     content_size = models.CharField(max_length=255)
