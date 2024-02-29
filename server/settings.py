@@ -8,6 +8,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "user.List"
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -26,7 +28,7 @@ INSTALLED_APPS = [
     "advert",
     "review",
     "file",
-    "section"
+    "section",
 ]
 
 MIDDLEWARE = [

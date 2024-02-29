@@ -1,4 +1,5 @@
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Count
 from utils.views import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from project.models import List
 from project.serializer import Serializer, ReadSerializer
@@ -6,7 +7,7 @@ from project.serializer import Serializer, ReadSerializer
 
 class ProjectsView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = List.objects.all()
+    queryset = List.objects.annotate(suggest_count=Count("project_sections__id"))
     serializer_class = Serializer
     read_serializer_class = ReadSerializer
 
@@ -24,31 +25,7 @@ class ProjectsView(ListCreateAPIView):
 
 class ProjectView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = List.objects.all()
+    queryset = List.objects.annotate(suggest_count=Count("project_sections__id"))
     lookup_field = "id"
     serializer_class = Serializer
     read_serializer_class = ReadSerializer
-
-
-# class ProjectSectionListView(ListAPIView):
-#     permission_classes = (IsAuthenticated,)
-#     queryset = List.objects.all()
-#     serializer_class = ProjectSectionSerializer
-
-#     def get_queryset(self):
-#         return self.queryset.filter(
-#             sections__step__gte=self.kwargs.get("step_from"),
-#             sections__step__lte=self.kwargs.get("step_to"),
-#         )
-
-
-# class ClientProjectView(ListAPIView):
-#     permission_classes = (IsAuthenticated,)
-#     queryset = List.objects.all()
-#     serializer_class = ListSerializer
-
-
-# class UserProjectView(ListAPIView):
-#     permission_classes = (IsAuthenticated,)
-#     queryset = List.objects.all()
-#     serializer_class = ListSerializer

@@ -2,16 +2,15 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
-from django.contrib.auth.models import User
 from section.models import List as Section
-
+from django.conf import settings
 
 class List(models.Model):
     section = models.ForeignKey(
         Section, on_delete=models.CASCADE, related_name="section_messages"
     )
     sender = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="messagfes"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="messages"
     )
     type = models.IntegerField()
     status = models.IntegerField(default=0)
