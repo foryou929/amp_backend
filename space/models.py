@@ -1,13 +1,10 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class List(models.Model):
     creator = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="spaces"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="spaces"
     )
     title = models.CharField(max_length=255)
     points = models.IntegerField(default=0)

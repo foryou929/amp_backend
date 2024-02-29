@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from project.models import List
-from section.serializer import ReadSerializer as SectionReadSerializer
+from section.serializer import Serializer as SectionSerializer
 from datetime import datetime
 
 
@@ -11,7 +11,8 @@ class Serializer(serializers.ModelSerializer):
 
 
 class ReadSerializer(serializers.ModelSerializer):
-    project_sections = SectionReadSerializer(many=True, read_only=True)
+    project_sections = SectionSerializer(many=True, read_only=True)
+    suggest_count = serializers.IntegerField()
     current = serializers.SerializerMethodField()
 
     class Meta:
