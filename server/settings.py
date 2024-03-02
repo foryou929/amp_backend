@@ -16,19 +16,21 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "daphne",
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
+    "channels",
     "user",
     "space",
     "project",
+    "section",
     "message",
     "payment",
     "advert",
     "review",
     "file",
-    "section",
 ]
 
 MIDDLEWARE = [
@@ -60,6 +62,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = "server.asgi.application"
 WSGI_APPLICATION = "server.wsgi.application"
 
 DATABASES = {
@@ -99,4 +102,13 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+        },
+    },
 }
