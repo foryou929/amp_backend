@@ -42,7 +42,7 @@ class SectionView(RetrieveUpdateDestroyAPIView):
     read_serializer_class = LinkSerializer
 
 
-class SectionProjectView(CreateAPIView, RetrieveAPIView):
+class SectionsProjectView(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
     serializer_class = Serializer
@@ -51,6 +51,13 @@ class SectionProjectView(CreateAPIView, RetrieveAPIView):
         request.data["user"] = request.user.id
         request.data["project"] = self.kwargs.get("project_id")
         return super().create(request, *args, **kwargs)
+
+
+class SectionProjectView(RetrieveAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = List.objects.all()
+    lookup_field = "project_id"
+    serializer_class = LinkSerializer
 
     def get_object(self):
         queryset = self.get_queryset()
