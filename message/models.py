@@ -1,7 +1,4 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
 from section.models import List as Section
 from django.conf import settings
 
