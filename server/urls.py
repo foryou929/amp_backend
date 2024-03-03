@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.urls import path
+from django.conf.urls.static import static
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -9,7 +11,7 @@ from auth.views import (
     LogoutView,
 )
 
-from user.views import UsersView, UserView
+from user.views import UserView
 from space.views import SpaceView
 from project.views import (
     ProjectsView,
@@ -42,5 +44,8 @@ urlpatterns = [
     path("api/<str:type>/section/<int:section_id>/payment", PaymentView.as_view()),
     path("api/<str:type>/section/<int:section_id>/advert", AdvertView.as_view()),
     path("api/<str:type>/section/project/<int:project_id>", SectionProjectView.as_view()),
-    path("api/upload", FileUploadView.as_view())
+    path("api/upload", FileUploadView.as_view()),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
