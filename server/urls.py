@@ -23,6 +23,7 @@ from section.views import (
 from message.views import MessageView
 from payment.views import PaymentView
 from advert.views import AdvertView
+from file.views import FileUploadView
 
 urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view()),
@@ -41,4 +42,5 @@ urlpatterns = [
     path("api/<str:type>/section/<int:section_id>/payment", PaymentView.as_view()),
     path("api/<str:type>/section/<int:section_id>/advert", AdvertView.as_view()),
     path("api/<str:type>/section/project/<int:project_id>", SectionProjectView.as_view()),
+    path("api/upload", FileUploadView.as_view())
 ]
