@@ -44,7 +44,7 @@ urlpatterns = [
     path("api/<str:type>/section/<int:section_id>/payment", PaymentView.as_view()),
     path("api/<str:type>/section/<int:section_id>/advert", AdvertView.as_view()),
     path("api/<str:type>/section/project/<int:project_id>", SectionProjectView.as_view()),
-    path("api/upload", FileUploadView.as_view()),
+    path("api/<str:type>/message/<int:message_id>", FileUploadView.as_view())
 ]
 
 if settings.DEBUG:
