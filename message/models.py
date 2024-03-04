@@ -9,7 +9,7 @@ class List(models.Model):
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="messages"
     )
-    type = models.IntegerField()
+    type = models.IntegerField(default=0)
     status = models.IntegerField(default=0)
     content = models.TextField(default=0)
 

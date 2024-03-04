@@ -3,7 +3,7 @@ from file.models import List
 
 
 class CreateSerializer(serializers.ModelSerializer):
-    file = serializers.FileField()
+    # file = serializers.FileField()
 
     class meta:
         model = List
