@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from section.models import List
-from message.serializer import ListSerializer as MessageSerializer
+from message.serializer import Serializer as MessageSerializer
 
 
 class Serializer(serializers.ModelSerializer):
@@ -10,7 +10,6 @@ class Serializer(serializers.ModelSerializer):
 
 
 class LinkSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = List
         fields = "__all__"
