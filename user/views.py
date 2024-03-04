@@ -1,3 +1,4 @@
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from user.models import List
@@ -16,6 +17,7 @@ class UsersView(ListAPIView):
 
 
 class UserView(RetrieveUpdateAPIView):
+    parser_classes = (MultiPartParser, FormParser)
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
     lookup_field = "id"

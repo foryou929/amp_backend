@@ -1,16 +1,17 @@
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from file.serializer import CreateSerializer
+from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import IsAuthenticated
+from file.models import List
+from file.serializer import Serializer
 
 
-class FileUploadView(APIView):
+class FileUploadView(CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = List.objects.all()
+    serializer_class = Serializer
     parser_classes = (MultiPartParser, FormParser)
 
-    def post(self, request, format=None):
-        file_serializer = CreateSerializer(data=request.data)
-        if file_serializer.is_valid():
-            file_serializer.save()
-            return Response(file_serializer.data, status=201)
-        else:
-            return Response(file_serializer.errors, status=400)
+    def create(self, request, *args, **kwargs):
+        request.data["message"] = kwargs.get("message_id")
+        return super().create(request, *args, **kwargs)
