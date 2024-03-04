@@ -1,16 +1,24 @@
-from utils.views import ListCreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from message.models import List
-from message.serializer import ListSerializer, ReadSerializer
+from message.serializer import Serializer, ReadSerializer
 
 
-class MessageView(ListCreateAPIView):
+class MessageView(ListAPIView, APIView):
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
-    serializer_class = ListSerializer
-    read_serializer_class = ReadSerializer
-    lookup_field = "section_id"
+    serializer_class = ReadSerializer
 
-    def create(self, request, *args, **kwargs):
-        request.data["section"] = self.kwargs.get("section_id")
-        return super().create(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        request.data["section"] = kwargs.get("section_id")
+        request.data["sender"] = request.user.id
+        serializer = Serializer(data=request.data)
+        if serializer.is_valid():
+            instance = serializer.save()
+            serializer = ReadSerializer(instance)
+            serialized_data = serializer.data
+            return Response(serialized_data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
