@@ -7,4 +7,4 @@ class List(models.Model):
         Message, on_delete=models.CASCADE, related_name="message_files"
     )
 
-    file = models.FileField(upload_to="uploads/")
+    source = models.FileField(upload_to="uploads/")

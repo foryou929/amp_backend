@@ -18,8 +18,6 @@ class ProjectsView(ListCreateAPIView):
     def get_queryset(self):
         if self.kwargs.get("type") == "client":
             return self.queryset.filter(creator=self.request.user.id)
-        if self.kwargs.get("type") == "user":
-            return self.queryset.filter(project_sections__user=self.request.user.id)
         return self.queryset.filter(status=0)
 
 
