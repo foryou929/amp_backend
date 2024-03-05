@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -19,6 +19,5 @@ class MessageView(ListAPIView, APIView):
         if serializer.is_valid():
             instance = serializer.save()
             serializer = ReadSerializer(instance)
-            serialized_data = serializer.data
-            return Response(serialized_data)
+            return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -12,7 +12,7 @@ from auth.views import (
 )
 
 from user.views import UserView
-from space.views import SpaceView
+from space.views import SpacesView, SpaceView
 from project.views import (
     ProjectsView,
     ProjectView,
@@ -20,12 +20,13 @@ from project.views import (
 from section.views import (
     SectionsView,
     SectionView,
-    SectionProjectView,
+    SectionsProjectView,
 )
 from message.views import MessageView
 from payment.views import PaymentView
 from advert.views import AdvertView
 from file.views import FileUploadView
+from image.views import ImageUploadView
 
 urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view()),
@@ -35,7 +36,8 @@ urlpatterns = [
     path("api/auth/loginWithToken", LoginWithTokenView.as_view()),
     path("api/auth/logout", LogoutView.as_view()),
     path("api/<str:type>/<int:id>", UserView.as_view()),
-    path("api/<str:type>/space", SpaceView.as_view()),
+    path("api/<str:type>/space", SpacesView.as_view()),
+    path("api/<str:type>/space/<int:id>", SpaceView.as_view()),
     path("api/<str:type>/project", ProjectsView.as_view()),
     path("api/<str:type>/project/<int:id>", ProjectView.as_view()),
     path("api/<str:type>/section", SectionsView.as_view()),
@@ -43,8 +45,9 @@ urlpatterns = [
     path("api/<str:type>/section/<int:section_id>/message", MessageView.as_view()),
     path("api/<str:type>/section/<int:section_id>/payment", PaymentView.as_view()),
     path("api/<str:type>/section/<int:section_id>/advert", AdvertView.as_view()),
-    path("api/<str:type>/section/project/<int:project_id>", SectionProjectView.as_view()),
-    path("api/<str:type>/message/<int:message_id>", FileUploadView.as_view())
+    path("api/<str:type>/section/project/<int:project_id>", SectionsProjectView.as_view()),
+    path("api/<str:type>/message/<int:message_id>", FileUploadView.as_view()),
+    path("api/<str:mode>/image/<str:type>/<int:id>", ImageUploadView.as_view()),
 ]
 
 if settings.DEBUG:

@@ -1,26 +1,25 @@
 from django.http import Http404
 from django.db.models import Count, Subquery, OuterRef
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.generics import CreateAPIView
 from utils.views import RetrieveUpdateDestroyAPIView
 from section.models import List
-from section.serializer import Serializer, LinkSerializer, ReadSerializer
+from section.serializer import Serializer, LinkSerializer, SectionListSerializer
 
 
-class SectionsView(ListAPIView):
+class SectionsView(APIView):
     permission_classes = (IsAuthenticated,)
-    queryset = List.objects.all()
-    serializer_class = ReadSerializer
 
-    def get_queryset(self):
-        type = self.kwargs.get("type")
+    def get(self, request, *args, **kwargs):
+        queryset = List.objects.all()
 
-        queryset = self.queryset
-
-        if type == "client":
-            queryset = queryset.filter(project__creator=self.request.user.id)
-        if type == "user":
-            queryset = queryset.filter(user=self.request.user.id)
+        if kwargs.get("type") == "client":
+            queryset = queryset.filter(project__creator=request.user.id)
+        if kwargs.get("type") == "user":
+            queryset = queryset.filter(user=request.user.id)
 
         suggest_count_subquery = (
             List.objects.values("project_id")
@@ -31,7 +30,8 @@ class SectionsView(ListAPIView):
 
         queryset = queryset.annotate(suggest_count=Subquery(suggest_count_subquery))
 
-        return queryset
+        serializer = SectionListSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class SectionView(RetrieveUpdateDestroyAPIView):
@@ -53,17 +53,22 @@ class SectionsProjectView(CreateAPIView):
         return super().create(request, *args, **kwargs)
 
 
-class SectionProjectView(RetrieveAPIView):
+class SectionsProjectView(APIView):
     permission_classes = (IsAuthenticated,)
-    queryset = List.objects.all()
-    lookup_field = "project_id"
-    serializer_class = LinkSerializer
 
-    def get_object(self):
-        queryset = self.get_queryset()
-        obj = queryset.filter(user=self.request.user.id).first()
+    def post(self, request, *args, **kwargs):
+        data = request.data.copy()
+        data["user"] = request.user.id
+        data["project"] = kwargs.get("project_id")
+        serializer = Serializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if obj is None:
+    def get(self, request, *args, **kwargs):
+        object = List.objects.filter(project_id=kwargs.get("project_id")).first()
+        if object is None:
             raise Http404
-
-        return obj
+        serializer = LinkSerializer(object)
+        return Response(serializer.data)

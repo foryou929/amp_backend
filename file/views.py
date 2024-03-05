@@ -1,5 +1,4 @@
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from file.models import List
