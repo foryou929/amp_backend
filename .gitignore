@@ -2,3 +2,4 @@
 /.vscode
 /media
 *.pyc
+server/settings.py
