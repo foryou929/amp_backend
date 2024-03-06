@@ -19,7 +19,8 @@ class List(AbstractUser):
     main_pr_target = models.TextField(default="")
     main_message = models.TextField(default="")
     website_url = models.CharField(max_length=100)
-    avatar = models.ImageField(upload_to='images/')
+    avatar = models.ImageField(upload_to="images/")
+    points = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
