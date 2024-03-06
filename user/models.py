@@ -18,8 +18,8 @@ class List(AbstractUser):
     main_service = models.TextField(default="")
     main_pr_target = models.TextField(default="")
     main_message = models.TextField(default="")
-    website_url = models.CharField(max_length=100)
-    avatar = models.ImageField(upload_to="images/")
+    website_url = models.CharField(max_length=100, default="")
+    avatar = models.ImageField(upload_to="images/", default="")
     points = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
