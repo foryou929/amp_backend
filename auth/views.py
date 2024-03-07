@@ -26,7 +26,7 @@ class LoginView(views.APIView):
             password = request.data.get("password")
             user = authenticate(request, username=username, password=password)
             if user:
-                refresh = RefreshToken.for_user(user)
+                # refresh = RefreshToken.for_user(user)
                 token = {
                     "refresh": "1",  # str(refresh),
                     "access": "1",  # str(refresh.access_token),
