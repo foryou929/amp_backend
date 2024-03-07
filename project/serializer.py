@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from project.models import List
-from section.serializer import Serializer as SectionSerializer
+from section.serializer import LinkSerializer as SectionSerializer
 from image.serializer import Serializer as ImageSerializer
 from datetime import datetime
 
