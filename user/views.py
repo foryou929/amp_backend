@@ -1,5 +1,5 @@
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from user.models import List
 from user.serializer import ProfileSerializer
@@ -17,6 +17,13 @@ class UsersView(ListAPIView):
 
 
 class UserView(RetrieveUpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = List.objects.all()
+    lookup_field = "id"
+    serializer_class = ProfileSerializer
+
+
+class AvatarUploadView(UpdateAPIView):
     parser_classes = (MultiPartParser, FormParser)
     permission_classes = (IsAuthenticated,)
     queryset = List.objects.all()
