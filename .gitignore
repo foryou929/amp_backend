@@ -1,5 +1,4 @@
-/env
 /.vscode
 /media
+/server/settings.py
 *.pyc
-server/settings.py
