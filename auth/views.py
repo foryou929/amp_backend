@@ -28,8 +28,8 @@ class LoginView(views.APIView):
             if user:
                 refresh = RefreshToken.for_user(user)
                 token = {
-                    "refresh": str(refresh),
-                    "access": str(refresh.access_token),
+                    "refresh": "1",  # str(refresh),
+                    "access": "1",  # str(refresh.access_token),
                 }
                 return Response({"message": "Login successful", "token": token})
             return Response({"error": "Invalid credentials"}, status=400)
