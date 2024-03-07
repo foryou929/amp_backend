@@ -21,20 +21,21 @@ class LoginView(views.APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request):
-        try:
-            username = request.data.get("username")
-            password = request.data.get("password")
-            user = authenticate(request, username=username, password=password)
-            if user:
-                # refresh = RefreshToken.for_user(user)
-                token = {
-                    "refresh": "1",  # str(refresh),
-                    "access": "1",  # str(refresh.access_token),
-                }
-                return Response({"message": "Login successful", "token": token})
-            return Response({"error": "Invalid credentials"}, status=400)
-        except Exception as e:
-            return Response({"error": str(e)}, status=500)
+        # try:
+        #     username = request.data.get("username")
+        #     password = request.data.get("password")
+        #     user = authenticate(request, username=username, password=password)
+        #     if user:
+        #         # refresh = RefreshToken.for_user(user)
+        #         token = {
+        #             "refresh": "1",  # str(refresh),
+        #             "access": "1",  # str(refresh.access_token),
+        #         }
+        #         return Response({"message": "Login successful", "token": token})
+        #     return Response({"error": "Invalid credentials"}, status=400)
+        # except Exception as e:
+        #     return Response({"error": str(e)}, status=500)
+        return Response({"error": "success"})
 
 
 class LoginWithTokenView(views.APIView):
