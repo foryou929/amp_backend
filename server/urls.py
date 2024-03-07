@@ -2,13 +2,12 @@ from django.conf import settings
 from django.urls import path
 from django.conf.urls.static import static
 
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
 from auth.views import (
     RegisterView,
     LoginView,
     LoginWithTokenView,
     LogoutView,
+    TokenRefreshView
 )
 
 from user.views import UserView, AvatarUploadView
@@ -29,7 +28,6 @@ from file.views import FileUploadView
 from image.views import ImageUploadView
 
 urlpatterns = [
-    path("api/token/", TokenObtainPairView.as_view()),
     path("api/token/refresh/", TokenRefreshView.as_view()),
     path("api/auth/register", RegisterView.as_view()),
     path("api/auth/login", LoginView.as_view()),
