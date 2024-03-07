@@ -32,7 +32,7 @@ urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view()),
     path("api/token/refresh/", TokenRefreshView.as_view()),
     path("api/auth/register", RegisterView.as_view()),
-    # path("api/auth/login", LoginView.as_view()),
+    path("api/auth/login", LoginView.as_view()),
     path("api/auth/loginWithToken", LoginWithTokenView.as_view()),
     path("api/auth/logout", LogoutView.as_view()),
     path("api/<str:type>/<int:id>", UserView.as_view()),
