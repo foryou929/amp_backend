@@ -52,5 +52,4 @@ urlpatterns = [
     path("api/<str:mode>/image/<str:type>/<int:id>", ImageUploadView.as_view()),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static("media", document_root=settings.MEDIA_ROOT)
+urlpatterns += static("media", document_root=settings.MEDIA_ROOT)
