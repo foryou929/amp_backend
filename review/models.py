@@ -3,8 +3,8 @@ from section.models import List
 from server.settings import AUTH_USER_MODEL
 
 class List(models.Model):
-    section = models.ForeignKey(List, related_name="section_reviews", on_delete=models.CASCADE)
-    reviewer = models.ForeignKey(AUTH_USER_MODEL, related_name="user_reviewer", on_delete=models.CASCADE)
+    section = models.ForeignKey(List, on_delete=models.SET_NULL, null=True, related_name="section_reviews")
+    reviewer = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="user_reviewer")
     content = models.TextField()
     rank = models.IntegerField(default=0)
 

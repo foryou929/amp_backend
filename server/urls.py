@@ -20,6 +20,7 @@ from section.views import (
     SectionsView,
     SectionView,
     SectionsProjectView,
+    SectionsSpaceView,
 )
 from message.views import MessageView
 from payment.views import SectionPaymentView, PaymentListView
@@ -47,10 +48,10 @@ urlpatterns = [
     path("api/<str:type>/section/<int:section_id>/advert", AdvertView.as_view()),
     path("api/<str:type>/section/<int:section_id>/review", ReviewView.as_view()),
     path("api/<str:type>/section/project/<int:project_id>", SectionsProjectView.as_view()),
+    path("api/<str:type>/section/space/<int:space_id>", SectionsSpaceView.as_view()),
     path("api/<str:type>/message/<int:message_id>", FileUploadView.as_view()),
     path("api/<str:type>/payment", PaymentListView.as_view()),
     path("api/<str:mode>/image/<str:type>/<int:id>", ImageUploadView.as_view()),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static("media", document_root=settings.MEDIA_ROOT)
+urlpatterns += static("media", document_root=settings.MEDIA_ROOT)

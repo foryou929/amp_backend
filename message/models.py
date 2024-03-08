@@ -4,10 +4,10 @@ from django.conf import settings
 
 class List(models.Model):
     section = models.ForeignKey(
-        Section, on_delete=models.CASCADE, related_name="section_messages"
+        Section, on_delete=models.SET_NULL, null=True, related_name="section_messages"
     )
     sender = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="messages"
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="messages"
     )
     type = models.IntegerField(default=0)
     status = models.IntegerField(default=0)
