@@ -12,13 +12,6 @@ class Serializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class LinkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = List
-        fields = "__all__"
-        depth = 1
-
-
 class ImageListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ImageList
@@ -31,6 +24,15 @@ class ProjectListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectList
         fields = "__all__"
+
+
+class LinkSerializer(serializers.ModelSerializer):
+    section_messages = MessageSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = List
+        fields = "__all__"
+        depth = 1
 
 
 class SectionListSerializer(serializers.ModelSerializer):

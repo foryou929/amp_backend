@@ -6,7 +6,7 @@ from section.models import List as Section
 
 
 class List(models.Model):
-    section = models.OneToOneField(Section, on_delete=models.CASCADE, related_name="advert_section")
+    section = models.ForeignKey(Section, on_delete=models.SET_NULL, null=True, related_name="advert_section")
     is_received = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
