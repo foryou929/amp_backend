@@ -26,6 +26,7 @@ from payment.views import SectionPaymentView, PaymentListView
 from advert.views import AdvertView
 from file.views import FileUploadView
 from image.views import ImageUploadView
+from review.views import ReviewView
 
 urlpatterns = [
     path("api/token/refresh/", TokenRefreshView.as_view()),
@@ -42,17 +43,14 @@ urlpatterns = [
     path("api/<str:type>/section", SectionsView.as_view()),
     path("api/<str:type>/section/<int:id>", SectionView.as_view()),
     path("api/<str:type>/section/<int:section_id>/message", MessageView.as_view()),
-    path(
-        "api/<str:type>/section/<int:section_id>/payment", SectionPaymentView.as_view()
-    ),
+    path("api/<str:type>/section/<int:section_id>/payment", SectionPaymentView.as_view()),
     path("api/<str:type>/section/<int:section_id>/advert", AdvertView.as_view()),
-    path(
-        "api/<str:type>/section/project/<int:project_id>", SectionsProjectView.as_view()
-    ),
+    path("api/<str:type>/section/<int:section_id>/review", ReviewView.as_view()),
+    path("api/<str:type>/section/project/<int:project_id>", SectionsProjectView.as_view()),
     path("api/<str:type>/message/<int:message_id>", FileUploadView.as_view()),
     path("api/<str:type>/payment", PaymentListView.as_view()),
     path("api/<str:mode>/image/<str:type>/<int:id>", ImageUploadView.as_view()),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static("media", document_root=settings.MEDIA_ROOT)
