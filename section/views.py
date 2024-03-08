@@ -72,3 +72,24 @@ class SectionsProjectView(APIView):
             raise Http404
         serializer = LinkSerializer(object)
         return Response(serializer.data)
+
+
+class SectionsSpaceView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        data = request.data.copy()
+        data["user"] = request.user.id
+        data["space"] = kwargs.get("space_id")
+        serializer = Serializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, *args, **kwargs):
+        object = List.objects.filter(space_id=kwargs.get("space_id")).first()
+        if object is None:
+            raise Http404
+        serializer = LinkSerializer(object)
+        return Response(serializer.data)
