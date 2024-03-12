@@ -44,6 +44,7 @@ class SectionListSerializer(serializers.ModelSerializer):
     class Meta:
         model = List
         fields = "__all__"
+        depth = 1
 
     def get_current(self, obj):
         return datetime.now()
