@@ -21,8 +21,8 @@ class ReviewView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, *args, **kwargs):
-        object = List.objects.filter(section_id=kwargs.get("section_id")).first()
+        object = List.objects.filter(section_id=kwargs.get("section_id"))
         if object is None:
             raise Http404
-        serializer = Serializer(object)
+        serializer = Serializer(object, many=True)
         return Response(serializer.data)
